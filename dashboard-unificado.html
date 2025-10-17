@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semente Track - Dashboard Unificado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#d1e1bf;--panel:#ffffff;--panel-muted:#f0f3ec;--text:#1f2937;--text-muted:#6b7280;--brand:#6b8f4e;--brand-2:#95a97a;--radius:16px;}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+    aside{background:#fff;display:flex;flex-direction:column;border-right:1px solid #e5e7eb}
+    .brand{display:flex;align-items:center;gap:12px;padding:24px 20px;border-bottom:1px solid #eef0ea}
+    .brand img{width:36px;height:36px}
+    .brand .name{font-weight:700}
+    nav{display:flex;flex-direction:column;padding:8px}
+    .nav-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:var(--text);text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+    .nav-item.active{background:var(--panel-muted)}
+    .nav-subtitle{font-size:11px;color:var(--text-muted);margin-left:32px;margin-top:-8px;margin-bottom:4px}
+    .spacer{flex:1}
+    .user{display:flex;align-items:center;gap:12px;padding:16px 14px;border-top:1px solid #eef0ea}
+
+    main{padding:28px}
+    .header h1{margin:0 0 6px 0;font-size:32px;color:#1B5E20}
+    .hello{font-size:18px;margin:0 0 18px 0;color:#1B5E20;font-weight:600}
+
+    /* Tab Navigation */
+    .tab-navigation{display:flex;gap:4px;margin-bottom:24px;background:var(--panel);border-radius:12px;padding:4px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+    .tab-btn{padding:12px 20px;border:none;background:none;border-radius:8px;cursor:pointer;font-weight:500;color:var(--text-muted);transition:all 0.3s ease}
+    .tab-btn.active{background:var(--brand);color:white;box-shadow:0 2px 8px rgba(107,143,78,0.3)}
+    .tab-btn:hover:not(.active){background:var(--panel-muted);color:var(--text)}
+
+    /* Tab Content */
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+
+    /* Dashboard Styles */
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}
+    .card{background:var(--panel);border-radius:var(--radius);padding:16px;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+    .card .label{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-weight:600}
+    .card .value{font-size:30px;font-weight:800;margin-top:10px}
+
+    .content{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
+    .panel{background:var(--panel);border-radius:var(--radius);padding:16px;box-shadow:0 1px 0 rgba(0,0,0,.04);overflow:hidden}
+    .panel h3{margin:6px 0 14px 0;font-size:18px;color:#1B5E20;font-weight:600}
+    .chart-wrapper{position:relative;height:320px;width:100%}
+    canvas{max-width:100%!important;max-height:320px!important;width:100%!important;height:320px!important}
+
+    /* Reports Styles */
+    .data-table{width:100%;border-collapse:collapse;margin-top:8px}
+    .data-table th,.data-table td{padding:12px 16px;text-align:left;border-bottom:1px solid #e0e0e0}
+    .data-table th{background-color:#f8f8f8;font-weight:600;color:#333;font-size:14px}
+    .data-table td{font-size:14px;color:#666}
+    .data-table tr:hover{background-color:#f8f8f8}
+
+    .chart-container{text-align:center}
+    .donut-chart{width:120px;height:120px;border-radius:50%;background:conic-gradient(#1B5E20 0deg 216deg,#ff9800 216deg 288deg,#f44336 288deg 360deg);margin:0 auto 16px;position:relative}
+    .donut-chart::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background-color:white;border-radius:50%}
+    .chart-legend{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+    .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#666}
+    .legend-dot{width:8px;height:8px;border-radius:50%}
+
+    @media (max-width:1100px){.cards{grid-template-columns:repeat(2,1fr)}.content{grid-template-columns:1fr}}
+    @media (max-width:820px){.app{grid-template-columns:1fr}aside{position:sticky;top:0;z-index:10}nav{display:grid;grid-template-columns:repeat(4,1fr)}.nav-item{justify-content:center}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <img alt="logo" src="https://img.icons8.com/color/96/plant-under-rain--v1.png" />
+        <div>
+          <div class="name">Semente</div>
+          <div style="color:var(--text-muted);font-weight:600;margin-top:-2px">track</div>
+        </div>
+      </div>
+      <nav>
+        <button class="nav-item active" onclick="showTab('dashboard')">📊 Dashboard</button>
+        <button class="nav-item" onclick="showTab('relatorios')">📈 Relatórios</button>
+        <div class="nav-subtitle">status</div>
+        <button class="nav-item" href="#">⚠️ Problemas</button>
+        <button class="nav-item" href="#">🔔 Notificação</button>
+        <button class="nav-item" href="#">⚙️ Configurações</button>
+        <button class="nav-item" href="#">🏷️ Lote</button>
+      </nav>
+      <div class="spacer"></div>
+      <div class="user">
+        <img src="https://i.pravatar.cc/48?img=12" alt="" style="width:40px;height:40px;border-radius:999px"/>
+        <div>
+          <div style="font-weight:600">Fernando</div>
+          <div style="color:var(--text-muted);font-size:12px">Guilherme</div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="header">
+        <h1 id="page-title">Dashboard</h1>
+        <p class="hello">Olá, Fernando!</p>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="tab-navigation">
+        <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
+        <button class="tab-btn" onclick="showTab('relatorios')">📈 Relatórios</button>
+      </div>
+
+      <!-- Dashboard Tab Content -->
+      <div id="dashboard-tab" class="tab-content active">
+        <section class="cards">
+          <div class="card">
+            <div class="label">🌱 Total de sementes em estoque</div>
+            <div class="value" id="v-estoque">850 kg</div>
+          </div>
+          <div class="card">
+            <div class="label">🚚 Distribuído este mês</div>
+            <div class="value" id="v-mes">520 kg</div>
+          </div>
+          <div class="card">
+            <div class="label">🎟️ Lotes Pendentes</div>
+            <div class="value" id="v-lotes">4</div>
+          </div>
+          <div class="card">
+            <div class="label">⚠️ Problemas/Solicitações</div>
+            <div class="value" id="v-problemas">2</div>
+          </div>
+        </section>
+
+        <section class="content">
+          <div class="panel">
+            <h3>Distribuição por município</h3>
+            <div class="chart-wrapper">
+              <canvas id="lineChart"></canvas>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Estoque por Espécie (kg)</h3>
+            <div class="chart-wrapper">
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Reports Tab Content -->
+      <div id="relatorios-tab" class="tab-content">
+        <section class="content">
+          <div class="panel">
+            <h3>Status geral</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Tipo</th>
+                  <th>Quantidade em Estoque (kg)</th>
+                  <th>Distribuída (kg)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Arroz</td>
+                  <td>200KG</td>
+                  <td>125 KG</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Soja</td>
+                  <td>150KG</td>
+                  <td>70 KG</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Milho</td>
+                  <td>300KG</td>
+                  <td>100KG</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <h3>Distribuição</h3>
+            <div class="chart-container">
+              <div class="donut-chart"></div>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <div class="legend-dot" style="background-color:#1B5E20"></div>
+                  <span>Petrolina</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background-color:#ff9800"></div>
+                  <span>Feira nova</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background-color:#f44336"></div>
+                  <span>Araripina</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot" style="background-color:#2196F3"></div>
+                  <span>Serra talhada</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="content">
+          <div class="panel">
+
+            <h3>Distribuição por Região</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Município</th>
+                  <th>Distribuída (kg)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Petrolina</td>
+                  <td>400KG</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Feira Nova</td>
+                  <td>350KG</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Araripina</td>
+                  <td>200KG</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Serra Talhada</td>
+                  <td>150KG</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <h3>Resumo de Distribuição</h3>
+            <div style="text-align: center; padding: 40px 20px;">
+              <div style="font-size: 48px; font-weight: 800; color: #1B5E20; margin-bottom: 8px;">100%</div>
+              <div style="color: #666; font-size: 14px;">Distribuição Completa</div>
+              <div style="margin-top: 20px; font-size: 12px; color: #999;">
+                Total distribuído: 1.100KG<br>
+                Meta mensal: 1.100KG
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    // Global variables for charts
+    let lineChart = null;
+    let pieChart = null;
+
+    // Tab Navigation Function
+    function showTab(tabName) {
+      // Hide all tab contents
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(tab => tab.classList.remove('active'));
+      
+      // Remove active class from all tab buttons
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => btn.classList.remove('active'));
+      
+      // Remove active class from all nav items
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
+      
+      // Show selected tab content
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // Add active class to clicked tab button
+      event.target.classList.add('active');
+      
+      // Add active class to corresponding nav item
+      const navItem = document.querySelector(`[onclick="showTab('${tabName}')"]`);
+      if (navItem) {
+        navItem.classList.add('active');
+      }
+      
+      // Update page title
+      const pageTitle = document.getElementById('page-title');
+      if (tabName === 'dashboard') {
+        pageTitle.textContent = 'Dashboard';
+        // Initialize charts when switching to dashboard
+        setTimeout(() => {
+          initializeCharts();
+        }, 200);
+      } else if (tabName === 'relatorios') {
+        pageTitle.textContent = 'Relatórios';
+      }
+    }
+
+    // Chart initialization
+    function initializeCharts() {
+      const ctxLine = document.getElementById('lineChart');
+      const ctxPie = document.getElementById('pieChart');
+      
+      if (ctxLine && ctxPie) {
+        // Destroy existing charts if they exist
+        if (lineChart) {
+          lineChart.destroy();
+          lineChart = null;
+        }
+        if (pieChart) {
+          pieChart.destroy();
+          pieChart = null;
+        }
+        
+        // Create new line chart
+        lineChart = new Chart(ctxLine, {
+          type: 'line',
+          data: {
+            labels: ['Jan 2023', 'Fev 2023', 'Mar 2023', 'Abr 2023', 'Mai 2023', 'Jun 2023'],
+            datasets: [
+              { 
+                label: 'Petrolina', 
+                data: [180, 320, 140, 260, 300, 280], 
+                tension: 0.4, 
+                fill: false, 
+                borderColor: '#95a97a', 
+                backgroundColor: '#95a97a',
+                borderWidth: 2
+              },
+              { 
+                label: 'Feira Nova', 
+                data: [220, 360, 120, 180, 260, 240], 
+                tension: 0.4, 
+                fill: false, 
+                borderColor: '#c2c8bf', 
+                backgroundColor: '#c2c8bf',
+                borderWidth: 2
+              },
+              { 
+                label: 'Araripina', 
+                data: [300, 340, 310, 370, 280, 330], 
+                tension: 0.4, 
+                fill: false, 
+                borderColor: '#ff8c7a', 
+                backgroundColor: '#ff8c7a',
+                borderWidth: 2
+              },
+              { 
+                label: 'Serra Talhada', 
+                data: [500, 540, 520, 560, 590, 560], 
+                tension: 0.4, 
+                fill: false, 
+                borderColor: '#6b8f4e', 
+                backgroundColor: '#6b8f4e',
+                borderWidth: 2
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            aspectRatio: 2,
+            scales: { 
+              y: { 
+                grid: { color: 'rgba(0,0,0,.05)' },
+                beginAtZero: true
+              },
+              x: {
+                grid: { color: 'rgba(0,0,0,.05)' }
+              }
+            },
+            plugins: { 
+              legend: { 
+                position: 'top',
+                labels: {
+                  usePointStyle: true,
+                  padding: 15,
+                  boxWidth: 12
+                }
+              }
+            }
+          }
+        });
+
+        // Create new pie chart
+        pieChart = new Chart(ctxPie, {
+          type: 'pie',
+          data: {
+            labels: ['Milho', 'Feijão', 'Sorgo'],
+            datasets: [{ 
+              data: [680, 220, 90], 
+              backgroundColor: ['#8aa06d', '#b6c59a', '#d7dfc7'], 
+              borderWidth: 0,
+              hoverOffset: 4
+            }]
+          },
+          options: { 
+            responsive: true,
+            maintainAspectRatio: false,
+            aspectRatio: 1,
+            plugins: { 
+              legend: { 
+                position: 'bottom',
+                labels: {
+                  usePointStyle: true,
+                  padding: 15,
+                  boxWidth: 12
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // Initialize charts on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wait a bit for the DOM to be fully ready
+      setTimeout(() => {
+        initializeCharts();
+      }, 100);
+    });
+  </script>
+</body>
+</html>
