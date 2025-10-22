@@ -44,23 +44,25 @@
     .card .label{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-weight:600}
     .card .value{font-size:30px;font-weight:800;margin-top:10px}
 
-    .content{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
-    .panel{background:var(--panel);border-radius:var(--radius);padding:16px;box-shadow:0 1px 0 rgba(0,0,0,.04);overflow:hidden}
-    .panel h3{margin:6px 0 14px 0;font-size:18px;color:#1B5E20;font-weight:600}
+    .content{display:grid;grid-template-columns:1.5fr 1fr;gap:24px}
+    .panel{background:var(--panel);border-radius:var(--radius);padding:20px;box-shadow:0 1px 0 rgba(0,0,0,.04);overflow:hidden}
+    .panel h3{margin:0 0 20px 0;font-size:18px;color:#1B5E20;font-weight:600}
     .chart-wrapper{position:relative;height:320px;width:100%}
     canvas{max-width:100%!important;max-height:320px!important;width:100%!important;height:320px!important}
 
     /* Reports Styles */
-    .data-table{width:100%;border-collapse:collapse;margin-top:8px}
-    .data-table th,.data-table td{padding:12px 16px;text-align:left;border-bottom:1px solid #e0e0e0}
+    .data-table{width:100%;border-collapse:collapse;margin-top:16px}
+    .data-table th,.data-table td{padding:16px 20px;text-align:left;border-bottom:1px solid #e0e0e0}
     .data-table th{background-color:#f8f8f8;font-weight:600;color:#333;font-size:14px}
     .data-table td{font-size:14px;color:#666}
     .data-table tr:hover{background-color:#f8f8f8}
+    .data-table tr:first-child th{border-top:1px solid #e0e0e0}
+    .data-table tr:last-child td{border-bottom:none}
 
-    .chart-container{text-align:center}
-    .donut-chart{width:120px;height:120px;border-radius:50%;background:conic-gradient(#1B5E20 0deg 216deg,#ff9800 216deg 288deg,#f44336 288deg 360deg);margin:0 auto 16px;position:relative}
+    .chart-container{text-align:center;padding:20px 0}
+    .donut-chart{width:120px;height:120px;border-radius:50%;background:conic-gradient(#1B5E20 0deg 216deg,#ff9800 216deg 288deg,#f44336 288deg 360deg);margin:0 auto 20px;position:relative}
     .donut-chart::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background-color:white;border-radius:50%}
-    .chart-legend{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+    .chart-legend{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:0 20px}
     .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#666}
     .legend-dot{width:8px;height:8px;border-radius:50%}
 
@@ -82,7 +84,7 @@
         <button class="nav-item active" onclick="showTab('dashboard')">📊 Dashboard</button>
         <button class="nav-item" onclick="showTab('relatorios')">📈 Relatórios</button>
         <div class="nav-subtitle">status</div>
-        <button class="nav-item" href="#">⚠️ Problemas</button>
+        <button class="nav-item" onclick="showTab('problemas')">⚠️ Problemas</button>
         <button class="nav-item" href="#">🔔 Notificação</button>
         <button class="nav-item" href="#">⚙️ Configurações</button>
         <button class="nav-item" href="#">🏷️ Lote</button>
@@ -107,6 +109,7 @@
       <div class="tab-navigation">
         <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
         <button class="tab-btn" onclick="showTab('relatorios')">📈 Relatórios</button>
+        <button class="tab-btn" onclick="showTab('problemas')">⚠️ Problemas</button>
       </div>
 
       <!-- Dashboard Tab Content -->
@@ -209,7 +212,7 @@
           </div>
         </section>
 
-        <section class="content">
+        <section class="content" style="margin-top: 32px;">
           <div class="panel">
 
             <h3>Distribuição por Região</h3>
@@ -248,12 +251,126 @@
 
           <div class="panel">
             <h3>Resumo de Distribuição</h3>
-            <div style="text-align: center; padding: 40px 20px;">
-              <div style="font-size: 48px; font-weight: 800; color: #1B5E20; margin-bottom: 8px;">100%</div>
-              <div style="color: #666; font-size: 14px;">Distribuição Completa</div>
-              <div style="margin-top: 20px; font-size: 12px; color: #999;">
+            <div style="text-align: center; padding: 50px 30px;">
+              <div style="font-size: 48px; font-weight: 800; color: #1B5E20; margin-bottom: 12px;">100%</div>
+              <div style="color: #666; font-size: 14px; margin-bottom: 8px;">Distribuição Completa</div>
+              <div style="margin-top: 24px; font-size: 12px; color: #999; line-height: 1.6;">
                 Total distribuído: 1.100KG<br>
                 Meta mensal: 1.100KG
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Problems Tab Content -->
+      <div id="problemas-tab" class="tab-content">
+        <!-- Search Bar -->
+        <div style="margin-bottom: 32px; padding: 0 4px;">
+          <div style="position: relative; max-width: 400px;">
+            <input type="text" placeholder="Pesquisa..." style="width: 100%; padding: 16px 20px 16px 48px; border: 1px solid #e0e0e0; border-radius: 12px; font-size: 14px; background: white; outline: none; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <div style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #666; font-size: 16px;">🔍</div>
+          </div>
+        </div>
+
+        <!-- Problems Table -->
+        <section class="content" style="margin-bottom: 32px;">
+          <div class="panel" style="grid-column: 1 / -1; padding: 24px;">
+            <h3 style="margin-bottom: 24px;">Problemas e Ocorrências</h3>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>N.</th>
+                  <th>Data</th>
+                  <th>Lote</th>
+                  <th>Tipo de Problema</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>10/05/2025</td>
+                  <td>LT-203</td>
+                  <td>Atraso na entrega</td>
+                  <td><span style="background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 6px; font-size: 12px;">Em análise</span></td>
+                  <td><button style="background: none; border: none; color: #1B5E20; cursor: pointer; display: flex; align-items: center; gap: 4px;">👁️ Ver detalhes</button></td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>08/05/2025</td>
+                  <td>LT-197</td>
+                  <td>Peso divergente</td>
+                  <td><span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 6px; font-size: 12px;">Resolvido</span></td>
+                  <td><button style="background: none; border: none; color: #1B5E20; cursor: pointer; display: flex; align-items: center; gap: 4px;">👁️ Ver detalhes</button></td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>05/05/2025</td>
+                  <td>LT-189</td>
+                  <td>Qualidade inferior</td>
+                  <td><span style="background: #f8d7da; color: #721c24; padding: 4px 8px; border-radius: 6px; font-size: 12px;">Pendente</span></td>
+                  <td><button style="background: none; border: none; color: #1B5E20; cursor: pointer; display: flex; align-items: center; gap: 4px;">👁️ Ver detalhes</button></td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>03/05/2025</td>
+                  <td>LT-182</td>
+                  <td>Documentação incompleta</td>
+                  <td><span style="background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 6px; font-size: 12px;">Resolvido</span></td>
+                  <td><button style="background: none; border: none; color: #1B5E20; cursor: pointer; display: flex; align-items: center; gap: 4px;">👁️ Ver detalhes</button></td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>01/05/2025</td>
+                  <td>LT-175</td>
+                  <td>Transporte danificado</td>
+                  <td><span style="background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 6px; font-size: 12px;">Em análise</span></td>
+                  <td><button style="background: none; border: none; color: #1B5E20; cursor: pointer; display: flex; align-items: center; gap: 4px;">👁️ Ver detalhes</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Summary and Chart Section -->
+        <section class="content" style="gap: 28px;">
+          <div class="panel" style="padding: 24px;">
+            <h3 style="margin-bottom: 24px;">Resumo Rápido</h3>
+            <div style="display: flex; flex-direction: column; gap: 20px; padding: 8px 0;">
+              <div style="display: flex; align-items: center; gap: 16px; padding: 8px 0;">
+                <div style="width: 14px; height: 14px; background: #ff9800; border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 15px;">Em análise: 2 ocorrências</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 16px; padding: 8px 0;">
+                <div style="width: 14px; height: 14px; background: #4caf50; border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 15px;">Resolvidas: 2 ocorrências</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 16px; padding: 8px 0;">
+                <div style="width: 14px; height: 14px; background: #f44336; border-radius: 50%;"></div>
+                <span style="font-weight: 500; font-size: 15px;">Pendentes: 1 ocorrência</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="padding: 24px;">
+            <h3 style="margin-bottom: 24px;">Status dos Problemas</h3>
+            <div class="chart-container" style="padding: 24px 0;">
+              <div class="donut-chart" style="background: conic-gradient(#4caf50 0deg 144deg, #ff9800 144deg 216deg, #f44336 216deg 360deg); margin-bottom: 24px;"></div>
+              <div class="chart-legend" style="gap: 16px; padding: 0 24px;">
+                <div class="legend-item" style="padding: 4px 0;">
+                  <div class="legend-dot" style="background-color:#4caf50; width: 12px; height: 12px;"></div>
+                  <span style="font-size: 14px;">Resolvidas</span>
+                </div>
+                <div class="legend-item" style="padding: 4px 0;">
+                  <div class="legend-dot" style="background-color:#ff9800; width: 12px; height: 12px;"></div>
+                  <span style="font-size: 14px;">Em análise</span>
+                </div>
+                <div class="legend-item" style="padding: 4px 0;">
+                  <div class="legend-dot" style="background-color:#f44336; width: 12px; height: 12px;"></div>
+                  <span style="font-size: 14px;">Pendentes</span>
+                </div>
               </div>
             </div>
           </div>
@@ -304,6 +421,8 @@
         }, 200);
       } else if (tabName === 'relatorios') {
         pageTitle.textContent = 'Relatórios';
+      } else if (tabName === 'problemas') {
+        pageTitle.textContent = 'Problemas';
       }
     }
 
