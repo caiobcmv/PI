@@ -24,46 +24,138 @@
     </div>
     
     <div class="login-content">
-      <div class="login-title">LOGIN</div>
-      <div class="login-subtitle">Acesse sua conta para continuar</div>
-      
-      <div class="error-message" id="errorMessage">
-        Usuário ou senha incorretos. Tente novamente.
+      <!-- Navegação de Abas -->
+      <div class="login-tabs">
+        <button class="login-tab-btn active" onclick="showLoginTab('login')">Login</button>
+        <button class="login-tab-btn" onclick="showLoginTab('cadastro')">Cadastrar</button>
       </div>
-      
-      <form class="login-form" id="loginForm">
-        <div class="form-group">
-          <label for="usuario" class="form-label">Usuário</label>
-          <input 
-            type="text" 
-            id="usuario" 
-            name="usuario" 
-            class="form-input" 
-            placeholder="Digite seu usuário"
-            required
-          >
+
+      <!-- Aba de Login -->
+      <div id="login-tab-content" class="login-tab-content active">
+        <div class="login-title">LOGIN</div>
+        <div class="login-subtitle">Acesse sua conta para continuar</div>
+        
+        <div class="error-message" id="errorMessage">
+          Usuário ou senha incorretos. Tente novamente.
         </div>
         
-        <div class="form-group">
-          <label for="senha" class="form-label">Senha</label>
-          <input 
-            type="password" 
-            id="senha" 
-            name="senha" 
-            class="form-input" 
-            placeholder="Digite sua senha"
-            required
-          >
-        </div>
-        
-        <button type="submit" class="login-button" id="loginButton">
-          <span id="buttonText">Login</span>
-          <div class="loading" id="loading">
-            <div class="spinner"></div>
-            Entrando...
+        <form class="login-form" id="loginForm">
+          <div class="form-group">
+            <label for="usuario" class="form-label">Usuário</label>
+            <input 
+              type="text" 
+              id="usuario" 
+              name="usuario" 
+              class="form-input" 
+              placeholder="Digite seu usuário"
+              required
+            >
           </div>
-        </button>
-      </form>
+          
+          <div class="form-group">
+            <label for="senha" class="form-label">Senha</label>
+            <input 
+              type="password" 
+              id="senha" 
+              name="senha" 
+              class="form-input" 
+              placeholder="Digite sua senha"
+              required
+            >
+          </div>
+          
+          <button type="submit" class="login-button" id="loginButton">
+            <span id="buttonText">Login</span>
+            <div class="loading" id="loading">
+              <div class="spinner"></div>
+              Entrando...
+            </div>
+          </button>
+        </form>
+      </div>
+
+      <!-- Aba de Cadastro -->
+      <div id="cadastro-tab-content" class="login-tab-content">
+        <div class="login-title">CADASTRO</div>
+        <div class="login-subtitle">Crie sua conta para começar</div>
+        
+        <div class="error-message" id="cadastroErrorMessage" style="display: none;">
+        </div>
+        
+        <div class="success-message" id="cadastroSuccessMessage" style="display: none;">
+        </div>
+        
+        <form class="login-form" id="cadastroForm">
+          <div class="form-group">
+            <label for="cadastroNome" class="form-label">Nome Completo</label>
+            <input 
+              type="text" 
+              id="cadastroNome" 
+              name="nome" 
+              class="form-input" 
+              placeholder="Digite seu nome completo"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastroUsuario" class="form-label">Usuário</label>
+            <input 
+              type="text" 
+              id="cadastroUsuario" 
+              name="usuario" 
+              class="form-input" 
+              placeholder="Escolha um nome de usuário"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastroEmail" class="form-label">E-mail (Opcional)</label>
+            <input 
+              type="email" 
+              id="cadastroEmail" 
+              name="email" 
+              class="form-input" 
+              placeholder="Digite seu e-mail"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="cadastroSenha" class="form-label">Senha</label>
+            <input 
+              type="password" 
+              id="cadastroSenha" 
+              name="senha" 
+              class="form-input" 
+              placeholder="Digite uma senha segura"
+              required
+              minlength="6"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cadastroSenhaConfirmar" class="form-label">Confirmar Senha</label>
+            <input 
+              type="password" 
+              id="cadastroSenhaConfirmar" 
+              name="senhaConfirmar" 
+              class="form-input" 
+              placeholder="Digite a senha novamente"
+              required
+              minlength="6"
+            >
+          </div>
+          
+          <button type="submit" class="login-button" id="cadastroButton">
+            <span id="cadastroButtonText">Cadastrar</span>
+            <div class="loading" id="loadingCadastroUsuario" style="display: none;">
+              <div class="spinner"></div>
+              Cadastrando...
+            </div>
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -82,9 +174,9 @@
         <button class="nav-item" onclick="showTab('relatorios')">📈 Relatórios</button>
         <div class="nav-subtitle">status</div>
         <button class="nav-item" onclick="showTab('problemas')">⚠️ Problemas</button>
-        <button class="nav-item" href="#">🔔 Notificação</button>
-        <button class="nav-item" href="#">⚙️ Configurações</button>
-        <button class="nav-item" href="#">🏷️ Lote</button>
+        <button class="nav-item" onclick="showTab('cadastro-sementes')">🌱 Cadastro de Sementes</button>
+        <button class="nav-item" onclick="showTab('notificacoes')">🔔 Notificação</button>
+        <button class="nav-item" onclick="showTab('configuracoes')">⚙️ Configurações</button>
       </nav>
       <div class="spacer"></div>
       <div class="user">
@@ -110,6 +202,9 @@
         <button class="tab-btn active" onclick="showTab('dashboard')">📊 Dashboard</button>
         <button class="tab-btn" onclick="showTab('relatorios')">📈 Relatórios</button>
         <button class="tab-btn" onclick="showTab('problemas')">⚠️ Problemas</button>
+        <button class="tab-btn" onclick="showTab('cadastro-sementes')">🌱 Cadastro de Sementes</button>
+        <button class="tab-btn" onclick="showTab('notificacoes')">🔔 Notificações</button>
+        <button class="tab-btn" onclick="showTab('configuracoes')">⚙️ Configurações</button>
       </div>
 
       <!-- Dashboard Tab Content -->
@@ -376,10 +471,334 @@
           </div>
         </section>
       </div>
+
+      <!-- Cadastro de Sementes Tab Content -->
+      <div id="cadastro-sementes-tab" class="tab-content">
+        <section class="cadastro-section">
+          <div class="cadastro-header">
+            <h2>Cadastro de semente</h2>
+            <p class="hello">Olá, Fernando!</p>
+          </div>
+
+          <!-- Tab Navigation dentro do cadastro -->
+          <div class="cadastro-tabs">
+            <button class="cadastro-tab-btn active" onclick="showCadastroTab('informacoes-basicas')">Informações Básicas da Semente</button>
+            <button class="cadastro-tab-btn" onclick="showCadastroTab('gerenciar-distribuicao')">Gerenciar Distribuição</button>
+          </div>
+
+          <!-- Formulário de Informações Básicas -->
+          <div id="informacoes-basicas" class="cadastro-tab-content active">
+            <form id="formCadastroSemente" class="cadastro-form">
+              <!-- Informações Básicas da Semente -->
+              <div class="form-section">
+                <h3 class="section-title">Informações Básicas da Semente</h3>
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="nomeSemente" class="form-label">Nome da Semente</label>
+                    <input type="text" id="nomeSemente" name="nomeSemente" class="form-input" placeholder="Digite o nome da semente" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="categoriaAgricola" class="form-label">Categoria Agrícola</label>
+                    <input type="text" id="categoriaAgricola" name="categoriaAgricola" class="form-input" placeholder="Ex: Cereal, Leguminosa, etc." required>
+                  </div>
+                  <div class="form-group">
+                    <label for="origemLote" class="form-label">Origem do Lote</label>
+                    <input type="text" id="origemLote" name="origemLote" class="form-input" placeholder="Digite a origem do lote" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="quantidadeInicial" class="form-label">Quantidade Inicial (kg)</label>
+                    <input type="number" id="quantidadeInicial" name="quantidadeInicial" class="form-input" placeholder="0" min="0" step="0.01" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Detalhes do Lote -->
+              <div class="form-section">
+                <h3 class="section-title">Detalhes do Lote</h3>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="responsavelLote" class="form-label">Responsável pelo Lote</label>
+                    <input type="text" id="responsavelLote" name="responsavelLote" class="form-input" placeholder="Digite o nome do responsável" required>
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="fornecedor" class="form-label">Fornecedor</label>
+                    <input type="text" id="fornecedor" name="fornecedor" class="form-input" placeholder="Digite o nome do fornecedor" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="dataAquisicao" class="form-label">Data de Aquisição</label>
+                    <input type="date" id="dataAquisicao" name="dataAquisicao" class="form-input" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="validadeLote" class="form-label">Validade do Lote</label>
+                    <input type="date" id="validadeLote" name="validadeLote" class="form-input" required>
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="armazenamento" class="form-label">Armazenamento / Local</label>
+                    <input type="text" id="armazenamento" name="armazenamento" class="form-input" placeholder="Digite o local de armazenamento" required>
+                  </div>
+                  <div class="form-group full-width">
+                    <label for="observacoes" class="form-label">Observações</label>
+                    <textarea id="observacoes" name="observacoes" class="form-input" rows="4" placeholder="Digite observações adicionais (opcional)"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mensagem de sucesso/erro -->
+              <div id="cadastroMessage" class="cadastro-message" style="display: none;"></div>
+
+              <!-- Botão de cadastro -->
+              <div class="form-actions">
+                <button type="submit" class="btn-cadastrar" id="btnCadastrar">
+                  <span id="btnCadastrarText">Cadastrar</span>
+                  <div class="loading" id="loadingCadastro" style="display: none;">
+                    <div class="spinner"></div>
+                    Cadastrando...
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Gerenciar Distribuição (placeholder) -->
+          <div id="gerenciar-distribuicao" class="cadastro-tab-content">
+            <div class="panel">
+              <h3>Gerenciar Distribuição</h3>
+              <p style="color: var(--text-muted);">Funcionalidade em desenvolvimento...</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Notificações Tab Content -->
+      <div id="notificacoes-tab" class="tab-content">
+        <section class="notificacoes-section">
+          <div class="notificacoes-header">
+            <h2>Notificações</h2>
+            <p class="hello">Olá, Fernando!</p>
+          </div>
+
+          <!-- Filtros de Notificação -->
+          <div class="notificacoes-filters">
+            <button class="filter-btn active" onclick="filtrarNotificacoes('todas')">Todas</button>
+            <button class="filter-btn" onclick="filtrarNotificacoes('sementes')">Sementes</button>
+            <button class="filter-btn" onclick="filtrarNotificacoes('lotes')">Lotes</button>
+            <button class="filter-btn" onclick="filtrarNotificacoes('problemas')">Problemas</button>
+            <button class="filter-btn" onclick="filtrarNotificacoes('sistema')">Sistema</button>
+          </div>
+
+          <!-- Lista de Notificações -->
+          <div class="notificacoes-container">
+            <div class="notificacoes-card">
+              <div class="notificacoes-card-header">
+                <span class="notificacoes-count" id="notificacoesCount">0 notificações</span>
+                <div class="notificacoes-actions">
+                  <button class="action-btn" onclick="marcarTodasComoLidas()" title="Marcar todas como lidas">
+                    ✓ Marcar todas como lidas
+                  </button>
+                  <button class="action-btn" onclick="limparNotificacoes()" title="Limpar notificações">
+                    🗑️ Limpar
+                  </button>
+                </div>
+              </div>
+              
+              <div class="notificacoes-list" id="notificacoesList">
+                <!-- Notificações serão carregadas dinamicamente aqui -->
+                <div class="notificacao-empty">
+                  <p>Nenhuma notificação no momento</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Configurações Tab Content -->
+      <div id="configuracoes-tab" class="tab-content">
+        <section class="configuracoes-section">
+          <div class="configuracoes-header">
+            <h2>Configurações</h2>
+            <p class="hello">Olá, Fernando!</p>
+          </div>
+
+          <div class="configuracoes-container">
+            <div class="configuracoes-card">
+              <!-- Seção: Conta -->
+              <div class="config-section">
+                <h3 class="config-section-title">Conta</h3>
+                <div class="config-options">
+                  <div class="config-option" onclick="abrirConfiguracao('dados-pessoais')">
+                    <div class="config-option-icon">👤</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Dados Pessoais</div>
+                      <div class="config-option-desc">Gerencie suas informações pessoais</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+
+                  <div class="config-option" onclick="abrirConfiguracao('itens-salvos')">
+                    <div class="config-option-icon">🔖</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Itens Salvos</div>
+                      <div class="config-option-desc">Visualize seus itens salvos</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+
+                  <div class="config-option" onclick="abrirConfiguracao('historico')">
+                    <div class="config-option-icon">🕐</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Histórico de Atividades</div>
+                      <div class="config-option-desc">Veja seu histórico de ações</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+
+                  <div class="config-option" onclick="abrirConfiguracao('transacoes')">
+                    <div class="config-option-icon">📋</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Registro de Transações</div>
+                      <div class="config-option-desc">Visualize registros de transações</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Seção: Outros -->
+              <div class="config-section">
+                <h3 class="config-section-title">Outros</h3>
+                <div class="config-options">
+                  <div class="config-option" onclick="abrirConfiguracao('ajuda')">
+                    <div class="config-option-icon">📞</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Ajuda</div>
+                      <div class="config-option-desc">Central de ajuda e suporte</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+
+                  <div class="config-option" onclick="abrirConfiguracao('privacidade')">
+                    <div class="config-option-icon">🔒</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Política de Privacidade</div>
+                      <div class="config-option-desc">Leia nossa política de privacidade</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+
+                  <div class="config-option config-option-danger" onclick="confirmarLogout()">
+                    <div class="config-option-icon">🚪</div>
+                    <div class="config-option-content">
+                      <div class="config-option-title">Sair</div>
+                      <div class="config-option-desc">Fazer logout da conta</div>
+                    </div>
+                    <div class="config-option-arrow">›</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Modal de Dados Pessoais -->
+      <div id="modal-dados-pessoais" class="config-modal">
+        <div class="config-modal-content">
+          <div class="config-modal-header">
+            <h3>Dados Pessoais</h3>
+            <button class="config-modal-close" onclick="fecharModal('dados-pessoais')">×</button>
+          </div>
+          <div class="config-modal-body">
+            <form id="formDadosPessoais" class="config-form">
+              <div class="config-form-group">
+                <label>Foto de Perfil</label>
+                <div class="profile-picture-container">
+                  <div class="profile-picture-preview" id="profilePicturePreview">
+                    <img src="https://i.pravatar.cc/120?img=12" alt="Perfil" id="profilePictureImg">
+                    <div class="profile-picture-overlay">
+                      <span>📷</span>
+                    </div>
+                  </div>
+                  <input type="file" id="profilePictureInput" accept="image/*" style="display: none;" onchange="atualizarFotoPerfil(event)">
+                  <button type="button" class="btn-secondary" onclick="document.getElementById('profilePictureInput').click()">
+                    Alterar Foto
+                  </button>
+                </div>
+              </div>
+
+              <div class="config-form-group">
+                <label for="nomeCompleto">Nome Completo</label>
+                <input type="text" id="nomeCompleto" class="config-input" placeholder="Digite seu nome completo" value="Fernando Guilherme">
+              </div>
+
+              <div class="config-form-group">
+                <label for="emailPerfil">E-mail</label>
+                <input type="email" id="emailPerfil" class="config-input" placeholder="Digite seu e-mail" value="fernando@example.com">
+              </div>
+
+              <div class="config-form-group">
+                <label for="telefonePerfil">Telefone</label>
+                <input type="tel" id="telefonePerfil" class="config-input" placeholder="(00) 00000-0000" value="(87) 99999-9999">
+              </div>
+
+              <div class="config-form-group">
+                <label for="usuarioPerfil">Nome de Usuário</label>
+                <input type="text" id="usuarioPerfil" class="config-input" placeholder="Digite seu usuário" value="admin" readonly>
+                <small class="config-input-hint">O nome de usuário não pode ser alterado</small>
+              </div>
+
+              <div class="config-form-group">
+                <button type="button" class="btn-secondary" onclick="abrirModal('alterar-senha'); fecharModal('dados-pessoais');" style="width: 100%; margin-top: 8px;">
+                  🔐 Alterar Senha
+                </button>
+              </div>
+
+              <div class="config-form-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModal('dados-pessoais')">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar Alterações</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal de Alterar Senha -->
+      <div id="modal-alterar-senha" class="config-modal">
+        <div class="config-modal-content">
+          <div class="config-modal-header">
+            <h3>Alterar Senha</h3>
+            <button class="config-modal-close" onclick="fecharModal('alterar-senha')">×</button>
+          </div>
+          <div class="config-modal-body">
+            <form id="formAlterarSenha" class="config-form">
+              <div class="config-form-group">
+                <label for="senhaAtual">Senha Atual</label>
+                <input type="password" id="senhaAtual" class="config-input" placeholder="Digite sua senha atual" required>
+              </div>
+
+              <div class="config-form-group">
+                <label for="novaSenha">Nova Senha</label>
+                <input type="password" id="novaSenha" class="config-input" placeholder="Digite a nova senha" required minlength="6">
+              </div>
+
+              <div class="config-form-group">
+                <label for="confirmarNovaSenha">Confirmar Nova Senha</label>
+                <input type="password" id="confirmarNovaSenha" class="config-input" placeholder="Digite a nova senha novamente" required minlength="6">
+              </div>
+
+              <div class="config-form-actions">
+                <button type="button" class="btn-secondary" onclick="fecharModal('alterar-senha')">Cancelar</button>
+                <button type="submit" class="btn-primary">Alterar Senha</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/bd.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
