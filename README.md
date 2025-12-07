@@ -174,7 +174,7 @@ Flexbox & Grid	Layout geral
 
 Baixe ou clone o projeto:
 
-git clone https://github.com/SEU_USUARIO/dashboard.git
+git clone https://github.com/caiobcmv/PI
 
 
 Abra o arquivo:
@@ -182,7 +182,6 @@ Abra o arquivo:
 index.html
 
 
-O sistema funciona 100% sem backend, basta abrir no navegador.
 
 📊 Detalhamento do Dashboard
 🟩 Cards Informativos
