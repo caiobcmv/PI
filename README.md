@@ -1,9 +1,9 @@
-🌱 Dashboard de Controle — Projeto Completo
+ Dashboard de Controle — Projeto Completo
 
 Um sistema completo de Dashboard Administrativo, com login, gráficos dinâmicos, cards estatísticos, tabelas e formulários profissionais.
 Ideal para controle de produtos, estoque, validade e métricas diversas.
 
-📌 Índice
+ Índice
 
 Sobre o Projeto
 
@@ -29,7 +29,7 @@ Melhorias Futuras
 
 Autor
 
-📖 Sobre o Projeto
+Sobre o Projeto
 
 Este projeto é um painel administrativo moderno, criado para facilitar visualização de dados, controle de produtos e acompanhamento de métricas.
 Ele integra UI moderna, gráficos animados, navegação intuitiva e um layout responsivo.
@@ -48,8 +48,8 @@ Painel para negócios, mercados, farmácias, hortifruti, indústria alimentícia
 
 Uso para estudos de front-end
 
-⭐ Funcionalidades
-🔐 Sistema de Login
+ Funcionalidades
+ Sistema de Login
 
 Tela exclusiva
 
@@ -59,7 +59,7 @@ Validação de campos
 
 Transição suave para o dashboard
 
-🧭 Barra Lateral (Menu)
+ Barra Lateral (Menu)
 
 Ícones modernos
 
@@ -77,7 +77,7 @@ Notificações
 
 Sair
 
-📊 Dashboard Interativo
+ Dashboard Interativo
 
 Inclui:
 
@@ -89,19 +89,19 @@ Layout responsivo
 
 Dados atualizados dinamicamente
 
-📈 Gráficos (Chart.js)
+ Gráficos (Chart.js)
 
 Gráfico de Linha (LineChart): evolução de dados
 
 Gráfico de Pizza (PieChart): porcentagens
 
-📋 Tabela de Atividades
+Tabela de Atividades
 
 Lista itens, status e ações
 
 Interface simples e limpa
 
-🔔 Painel de Notificações
+ Painel de Notificações
 
 Lateral retrátil
 
@@ -109,7 +109,7 @@ Abre e fecha suavemente
 
 Ideal para alertas importantes
 
-📝 Formulários Profissionais
+ Formulários Profissionais
 
 Cadastro de produto
 
@@ -123,7 +123,7 @@ Layout visualmente organizado
 
 Totalmente responsivo
 
-🎨 Design e Experiência
+ Design e Experiência
 
 O design é inspirado em dashboards modernos:
 
@@ -152,7 +152,7 @@ Os elementos foram criados para serem:
 ✔ Minimalistas
 ✔ Consistentes
 
-📁 Arquitetura de Arquivos
+ Arquitetura de Arquivos
 project/
 │── index.html          # Estrutura principal
 │── style.css           # Estilização completa do sistema
@@ -163,14 +163,14 @@ project/
      ├── icons/         # Ícones do menu e da interface
      ├── images/        # Imagens usadas no site
 
-🧪 Tecnologias Utilizadas
+Tecnologias Utilizadas
 Tecnologia	Uso
 HTML5	Estrutura das páginas
 CSS3	Estilização, animação e responsividade
 JavaScript	Lógica, login, formulários, notificações
 Chart.js	Gráficos interativos
 Flexbox & Grid	Layout geral
-🚀 Como Executar
+ Como Executar
 
 Baixe ou clone o projeto:
 
@@ -183,8 +183,8 @@ index.html
 
 
 
-📊 Detalhamento do Dashboard
-🟩 Cards Informativos
+ Detalhamento do Dashboard
+ Cards Informativos
 
 Total de produtos
 
@@ -204,7 +204,7 @@ Cor indicativa (verde, laranja, vermelho)
 
 Texto grande para foco visual
 
-📈 Gráficos Dinâmicos
+ Gráficos Dinâmicos
 
 100% responsivos
 
@@ -214,8 +214,8 @@ Suporte para múltiplas séries
 
 Animações com suavidade
 
-📝 Detalhamento dos Formulários
-📌 Cadastro de Produto
+ Detalhamento dos Formulários
+ Cadastro de Produto
 
 Campos:
 
@@ -243,7 +243,7 @@ Organização por etapas
 
 Layout em 2 colunas
 
-📦 Cadastro de Lote
+ Cadastro de Lote
 
 Campos:
 
@@ -269,11 +269,11 @@ Acessibilidade
 
 Responsividade mobile
 
-🎚 Customização
+Customização
 
 Você pode modificar facilmente:
 
-🎨 Cores principais
+ Cores principais
 
 No :root do CSS:
 
@@ -281,20 +281,20 @@ No :root do CSS:
 --warning-color: #fd7e14;
 --danger-color: #dc3545;
 
-🔢 Gráficos
+ Gráficos
 
 No script.js, altere:
 
 data: [5, 10, 6, 8]
 labels: ["Jan", "Fev", "Mar", "Abr"]
 
-🪪 Cards
+ Cards
 
 Fácil de duplicar e editar:
 
 <div class="card green"> ... </div>
 
-💡 Melhorias Futuras
+ Melhorias Futuras
 
 Integração com banco de dados
 
@@ -310,6 +310,6 @@ API para recebimento de dados externos
 
 Tela mobile dedicada
 
-👤 Autor
+ Autor
 
 Projeto desenvolvido e organizado por Caio Barreto , Luiz Felipe , Vitor daniel
